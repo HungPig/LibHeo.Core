@@ -4,23 +4,25 @@
  */
 package LibHeo.Application;
 
+import java.util.Date;
+
 /**
  *
  * @author Admin
  */
-public abstract class Person {
-    protected int userID;
+public class Person {
     protected String username;
     protected String password;
+    protected Date NgaySinh;
+    protected String DiaChi;
+    protected String gioiTinh;
 
-    public Person(int userID, String username, String password) {
-        this.userID = userID;
+    public Person(String username, String password, Date NgaySinh, String DiaChi, String gioiTinh) {
         this.username = username;
         this.password = password;
-    }
-
-    public int getUserID() {
-        return userID;
+        this.NgaySinh = NgaySinh;
+        this.DiaChi = DiaChi;
+        this.gioiTinh = gioiTinh;
     }
 
     public String getUsername() {
@@ -31,8 +33,16 @@ public abstract class Person {
         return password;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public Date getNgaySinh() {
+        return NgaySinh;
+    }
+
+    public String getDiaChi() {
+        return DiaChi;
+    }
+
+    public String getGioiTinh() {
+        return gioiTinh;
     }
 
     public void setUsername(String username) {
@@ -41,6 +51,18 @@ public abstract class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setNgaySinh(Date NgaySinh) {
+        this.NgaySinh = NgaySinh;
+    }
+
+    public void setDiaChi(String DiaChi) {
+        this.DiaChi = DiaChi;
+    }
+
+    public void setGioiTinh(String gioiTinh) {
+        this.gioiTinh = gioiTinh;
     }
     
 }

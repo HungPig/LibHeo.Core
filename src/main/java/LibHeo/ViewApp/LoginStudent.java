@@ -8,6 +8,10 @@ import LibHeo.Application.Admin;
 import LibHeo.Application.Person;
 import LibHeo.Application.Student;
 import LibHeo.Controllers.Authenticate;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -33,14 +37,14 @@ public class LoginStudent extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtUsername = new javax.swing.JTextField();
+        txtMSV = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
         txtLogin = new javax.swing.JButton();
         remember = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txtUsername.setText("jTextField1");
+        txtMSV.setText("jTextField1");
 
         txtPassword.setText("jPasswordField1");
 
@@ -63,7 +67,7 @@ public class LoginStudent extends javax.swing.JFrame {
                     .addComponent(remember)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtLogin)
-                        .addComponent(txtUsername)
+                        .addComponent(txtMSV)
                         .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)))
                 .addContainerGap(147, Short.MAX_VALUE))
         );
@@ -71,7 +75,7 @@ public class LoginStudent extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(117, 117, 117)
-                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -85,16 +89,41 @@ public class LoginStudent extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginActionPerformed
-        String userID = txtUsername.getText(); // userID cho sinh viên
-        String password = new String(txtPassword.getPassword());    
-        if (Authenticate.authenticate(userID, password, "student")) {
-            LibStudent g = new LibStudent();
-            this.setVisible(false);
-            g.setVisible(true);
+        String inputID = txtMSV.getText();
+        String password = new String(txtPassword.getPassword());
+
+        if (validateLogin(inputID, password)) {
+            JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
+            new LibStudent().setVisible(true);
+            this.dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Invalid userID or password!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "ID hoặc Mật khẩu không đúng!");
         }
     }//GEN-LAST:event_txtLoginActionPerformed
+
+    private boolean validateLogin(String inputID, String inputPassword) {
+        File file = new File("./database/Student.dat");
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\\$");
+                if (parts.length < 10) {
+                    System.err.println("Dòng không hợp lệ: " + line);
+                    continue; 
+                }
+
+                var studentID = parts[0]; 
+                var password = parts[9];
+
+                if (studentID.equals(inputID) && password.equals(inputPassword)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false; 
+    }
 
     /**
      * @param args the command line arguments
@@ -132,10 +161,11 @@ public class LoginStudent extends javax.swing.JFrame {
         });
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox remember;
     private javax.swing.JButton txtLogin;
+    private javax.swing.JTextField txtMSV;
     private javax.swing.JPasswordField txtPassword;
-    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
