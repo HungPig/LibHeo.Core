@@ -5,6 +5,7 @@
 package LibHeo.ViewApp;
 
 import LibHeo.Controllers.Authenticate;
+import LibHeo.Controllers.Session;
 import static java.lang.String.valueOf;
 import javax.swing.JOptionPane;
 
@@ -34,6 +35,7 @@ public class LoginAdmin extends javax.swing.JFrame {
         txtpassword = new javax.swing.JPasswordField();
         Jlogin = new javax.swing.JButton();
         remember = new javax.swing.JCheckBox();
+        Jlogin1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,7 +43,7 @@ public class LoginAdmin extends javax.swing.JFrame {
 
         txtpassword.setText("jPasswordField1");
 
-        Jlogin.setText("jButton1");
+        Jlogin.setText("Login");
         Jlogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JloginActionPerformed(evt);
@@ -50,19 +52,32 @@ public class LoginAdmin extends javax.swing.JFrame {
 
         remember.setText("jCheckBox1");
 
+        Jlogin1.setText("Register");
+        Jlogin1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Jlogin1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(164, 164, 164)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(remember)
-                    .addComponent(Jlogin)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtpassword)
-                        .addComponent(Txtusername)))
-                .addContainerGap(146, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(164, 164, 164)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(remember)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtpassword)
+                                .addComponent(Txtusername))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(Jlogin)
+                        .addGap(58, 58, 58)
+                        .addComponent(Jlogin1)))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -73,9 +88,11 @@ public class LoginAdmin extends javax.swing.JFrame {
                 .addComponent(txtpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(remember)
-                .addGap(4, 4, 4)
-                .addComponent(Jlogin)
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Jlogin)
+                    .addComponent(Jlogin1))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         pack();
@@ -85,6 +102,8 @@ public class LoginAdmin extends javax.swing.JFrame {
         String username = Txtusername.getText();
         String password = new String(txtpassword.getPassword());
         if (Authenticate.authenticate(username, password, "admin")) {
+            Session.currentUserIdentifier = username;
+            Session.currentUserRole = "admin";
             LibAdmin g = new LibAdmin();
             this.setVisible(false);
             g.setVisible(true);
@@ -92,6 +111,10 @@ public class LoginAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Invalid username or password!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_JloginActionPerformed
+
+    private void Jlogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Jlogin1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Jlogin1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -130,6 +153,7 @@ public class LoginAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Jlogin;
+    private javax.swing.JButton Jlogin1;
     private javax.swing.JTextField Txtusername;
     private javax.swing.JCheckBox remember;
     private javax.swing.JPasswordField txtpassword;
